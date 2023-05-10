@@ -1,22 +1,25 @@
 package dev.fredyhg.tasks.functional;
 
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class TasksTest {
 
 
-    public WebDriver acessarAplicacao(){
-        WebDriver driver = new ChromeDriver();
-        driver.navigate().to("http://localhost:8001/tasks");
+    public WebDriver acessarAplicacao() throws MalformedURLException {
+//        WebDriver driver = new ChromeDriver();
+        ChromeOptions cap = new ChromeOptions();
+        WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444"), cap);
+        driver.navigate().to("http://192.168.56.1:8001/tasks");
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         return driver;
@@ -25,7 +28,7 @@ public class TasksTest {
 
 
     @Test
-    public void deveSalvarTarefaComSucesso(){
+    public void deveSalvarTarefaComSucesso() throws MalformedURLException {
 
         WebDriver driver = acessarAplicacao();
 
@@ -40,7 +43,7 @@ public class TasksTest {
 
             String message = driver.findElement(By.id("message")).getText();
 
-            Assertions.assertEquals("Success!", message);
+            Assert.assertEquals("Success!", message);
 
         } finally {
             driver.quit();
@@ -48,7 +51,7 @@ public class TasksTest {
     }
 
     @Test
-    public void naoDeveSalvarTarefaSemDesc(){
+    public void naoDeveSalvarTarefaSemDesc() throws MalformedURLException {
 
         WebDriver driver = acessarAplicacao();
 
@@ -61,7 +64,7 @@ public class TasksTest {
 
             String message = driver.findElement(By.id("message")).getText();
 
-            Assertions.assertEquals("Fill the task description correct", message);
+            Assert.assertEquals("Fill the task description correct", message);
         } finally {
             driver.quit();
         }
@@ -69,7 +72,7 @@ public class TasksTest {
     }
 
     @Test
-    public void deveSalvarTarefaSemData(){
+    public void deveSalvarTarefaSemData() throws MalformedURLException {
 
         WebDriver driver = acessarAplicacao();
 
@@ -82,7 +85,7 @@ public class TasksTest {
 
             String message = driver.findElement(By.id("message")).getText();
 
-            Assertions.assertEquals("Fill the due date", message);
+            Assert.assertEquals("Fill the due date", message);
 
         } finally {
             driver.quit();
@@ -90,7 +93,7 @@ public class TasksTest {
     }
 
     @Test
-    public void deveSalvarTarefaComDataPassada(){
+    public void deveSalvarTarefaComDataPassada() throws MalformedURLException {
 
         WebDriver driver = acessarAplicacao();
 
@@ -105,7 +108,7 @@ public class TasksTest {
 
             String message = driver.findElement(By.id("message")).getText();
 
-            Assertions.assertEquals("Due date must not be in past", message);
+            Assert.assertEquals("Due date must not be in past", message);
 
         } finally {
             driver.quit();
