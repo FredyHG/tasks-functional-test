@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: dev.fredyhg.tasks.prod.HealthCheckIT
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.213 sec - in dev.fredyhg.tasks.prod.HealthCheckIT
